@@ -19,9 +19,6 @@
     	    background-color:#FEC503;
     	    color:#fff;
     } 
-
-    
-   
 </style>
 <body>
 
@@ -30,24 +27,19 @@
 <div class="container">
 		<!-- Jumbotron with Title -->
 		<div class="jumbotron">
-		  <div id="matrix"></div>
+		  <div id="movieImg"></div>
 			<h1 class="text-center"><strong>The Hangman Game</strong></h1>
 			
-			<p class="text-center">PRESS ANY KEY TO GET STARTED!</p>
+			<p class="text-center">PRESS ANY KEY TO GET STARTED! Guess Three Movie Names</p>
 
 			<p class="text-center"> Wins	</br> <span id="winNumber" > 0 </span></p>
 
 		  <div class="text-center">CURRENT WORD</br>
-		  <P class="text-center" id= "currentReset"> 
-		  <span id ="currentWord0">_</span>
-		  <span id ="currentWord1">_</span>
-		  <span id ="currentWord2">_</span>
-		  <span id ="currentWord3">_</span>
-		  <span id ="currentWord4">_</span>
-		  <span id ="currentWord5">_</span>
+		  <P class="text-center" id= "currentWord"> 
+
   
-  </P>
-  </div>
+      </P>
+      </div>
 	<p class="text-center"> Losses:	&nbsp; <span id="lossNumber">  0 </span></p>
 
 	<p class="text-center"> NUMBER OF GUESSES REMAINING:	</br> <span id="leftNumber"> 12 </span></p>
@@ -65,132 +57,166 @@
 
 
 <script type="text/javascript">
+// Sets the computer choices 
+var computerChoices = ['matrix', 'rocky', 'godfather'];
+// Declares the tallies to 0 
+var wins = 0;
+var losses = 0;
+var guessesLeft = 12;
 
-$( document ).ready(function() {
-	
-		var computerChoices = {
-			movie01: ['m', 'a', 't', 'r', 'i', 'x'],
-			movie02: ['r', 'o', 'c', 'k', 'y'],
-		}
-		
-		var wins = 0;
-		var losses = 0;
-		var guessesLeft = 12;
-		var curWord = [];
-		// var curWord = ['_','_','_','_'];
-		var guessesSoFar = [];
 
-		var m = $('<img>');
+var curWord = [];
+var answerWord;
+var guessesSoFar = [];
+
+var m = $('<img>');
 		    m.addClass('img-responsive center-block');
 		    m.attr('src', 'img/matrix.jpg');
+console.log(m);
+
+var r = $('<img>');
+		    r.addClass('img-responsive center-block');
+		    r.attr('src', 'img/rocky.jpg');
+console.log(r);
+var g = $('<img>');
+		    g.addClass('img-responsive center-block');
+		    g.attr('src', 'img/godfather.jpg');
+console.log(g);
+var winMessage = $('<h1>');
 		    
+		    winMessage.text('You Win!');
+console.log(winMessage);
 
-		// When the user presses the key it records the keypress and then sets it to userguess
-		document.onkeyup = function(event) {
-			var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-			// This sets the computer guess equal to the random.
-			
-		if (curWord.indexOf(userGuess) >= 0){
-				console.log('User guessed this letter already')
+
+
+//pick some word
+function startGame1() {
+	guessesLeft = 12;
+	guessesSoFar = [];
+	
+	$('#currentReset').empty();  
+	answerWord = computerChoices[0].split('');
+	curWord = [];
+	for (var i =0;i<answerWord.length;i++) {
+		curWord.push('_');
+	}
+	guessesSoFar = [];
+	$('#currentWord').html(curWord);
+}
+function startGame2() {
+	guessesLeft = 12;
+	guessesSoFar = [];
+	
+	$('#currentReset').empty();  
+	answerWord = computerChoices[1].split('');
+	curWord = [];
+	for (var i =0;i<answerWord.length;i++) {
+		curWord.push('_');
+	}
+	guessesSoFar = [];
+	$('#currentWord').html(curWord);
+}
+function startGame3() {
+	guessesLeft = 12;
+	guessesSoFar = [];
+	
+	$('#currentReset').empty();  
+	answerWord = computerChoices[2].split('');
+	curWord = [];
+	for (var i =0;i<answerWord.length;i++) {
+		curWord.push('_');
+	}
+	guessesSoFar = [];
+	$('#currentWord').html(curWord);
+}
+
+startGame1();
+
+
+
+
+
+// When the user presses the key it records the keypress and then sets it to userguess
+document.onkeyup = function(event) {
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+
+	// This sets the computer guess equal to the random.
+	
+	if (curWord.indexOf(userGuess) >= 0) {
+		console.log('User guessed this letter already')
+	} else if (answerWord.indexOf(userGuess) >= 0) {
+			for (var i =0;i<answerWord.length;i++) {
+				if (answerWord[i] == userGuess) {
+					curWord[i] = userGuess;
+				}
 			}
-		    else if (userGuess == computerChoices.movie01[0] ){
-				  var firstDiv = $('#currentWord0');
-				  newDiv = $('<span>' + userGuess + '</span>');
-				  firstDiv.html(newDiv);
-				  curWord.push(userGuess);
-				  guessesLeft -= 1;
-			}
-			  else if (userGuess == computerChoices.movie01[1] ){
-				  var firstDiv = $('#currentWord1');
-				  newDiv = $('<span>' + userGuess + '</span>');
-				  firstDiv.html(newDiv);
-				  curWord.push(userGuess);
-				  guessesLeft -= 1;
-			  }
-			  else if (userGuess == computerChoices.movie01[2] ){
-				  var firstDiv = $('#currentWord2');
-				  newDiv = $('<span>' + userGuess + '</span>');
-				  firstDiv.html(newDiv);
-				  curWord.push(userGuess);
-				  guessesLeft -= 1;
-			  }
-			  else if (userGuess == computerChoices.movie01[3] ){
-				  var firstDiv = $('#currentWord3');
-				  newDiv = $('<span>' + userGuess + '</span>');
-				  firstDiv.html(newDiv);
-				  curWord.push(userGuess);
-				  guessesLeft -= 1;
-			  }
-			  else if (userGuess == computerChoices.movie01[4] ){
-				  var firstDiv = $('#currentWord4');
-				  newDiv = $('<span>' + userGuess + '</span>');
-				  firstDiv.html(newDiv);
-				  curWord.push(userGuess);
-				  guessesLeft -= 1;
-			  }
-			  else if (userGuess == computerChoices.movie01[5] ){
-				  var firstDiv = $('#currentWord5');
-				  newDiv = $('<span>' + userGuess + '</span>');
-				  firstDiv.html(newDiv);
-				  curWord.push(userGuess);
-				  guessesLeft -= 1;
-			  }
 
-		    else{
-		    	console.log('else statement fired');
+			console.log('curWord', curWord);
+		  $('#currentWord').html(curWord);
+		  guessesLeft -= 1;
+	}	 else {
+					console.log('didnt match anything');
+     			guessesSoFar.push(userGuess);
+	 	    	console.log('Guess so far are:' + guessesSoFar);
+	 	      guessesLeft -= 1;    		
+  }	
 
-		    	if (guessesSoFar.indexOf(userGuess) >= 0) {
-		    		console.log('User guessed this letter already')
-		    	} else {
-		    			guessesSoFar.push(userGuess);
-				    	console.log('Guess so far are:' + guessesSoFar);
-				      guessesLeft -= 1;    		
-		    	}
-		    }
-		 
+  
+  if (guessesLeft == 0){
+  	  guessesLeft = 12;
+  	  guessesSoFar = [];
+  	  losses++; 
+  	  startGame();
+  }
 
 
-		  if (guessesLeft == 0){
-		  	  losses++;
-		  	  console.log(losses);
-		  	  guessesLeft = 12;
-		  	  guessesSoFar = [];
-		  	   
-		  	  curWord = [];
 
-		  }
+ // if (curWord == ['m', 'a', 't', 'r', 'i', 'x']) {
+ 	  if (curWord[0] == ['m'] && curWord[1] == ['a'] && curWord[2] == ['t'] && curWord[3] == ['r'] && curWord[4] == ['i'] && curWord[5] == ['x'])  {
+  	console.log("curWord fired", curWord)
+  	wins++;
+  	$('#movieImg').html(m);
+  	console.log(m);
+  	//curWord = [];
+  	startGame2();
+   }
 
-		  if (curWord.length == 6){
-		  	wins++;
-		  	$('#matrix').append(m);
-		  	guessesLeft = 12;
-		  	guessesSoFar = [];
-		  	curWord = [];
-		  
-		    
-		    console.log(m);
-		  }
-		  if (guessesLeft == 0){
-		  	guessesLeft = 12;
-		  	guessesSoFar = [];
-		  	 
+  	//else if (curWord == ['r', 'o', 'c', 'k', 'y']){
+  	else if (curWord[0] == ['r'] && curWord[1] == ['o'] && curWord[2] == ['c'] && curWord[3] == ['k'] && curWord[4] == ['y']){
+  	console.log("curWord fired", curWord)
+  	wins++;
+  	$('#movieImg').html(r);
+  	console.log(r);
+  	//curWord = [];
+  	startGame3();
+  	}
+  	//else if (curWord == ['g', 'o', 'd', 'f', 'a', 't', 'h', 'e', 'r']){
+  	else if (curWord[0] == ['g'] && curWord[1] == ['o'] && curWord[2] == ['d'] && curWord[3] == ['f'] && curWord[4] == ['a'] && curWord[5] == ['t'] && curWord[6] == ['h'] && curWord[7] == ['e'] && curWord[8] == ['r'] ){
+  	console.log("curWord fired", curWord)
+  	wins++;
+  	$('#movieImg').html(g);
+  	$('h1').html(winMessage)
+  	console.log(g);
+  	//curWord = [];
+  	startGame1();
+  	}
+ 
 
-		  }
+ 
+  document.querySelector('#guessInput').innerHTML = guessesSoFar + ',';
 
-		 
-		  document.querySelector('#guessInput').innerHTML = guessesSoFar + ',';
+	document.querySelector('#winNumber').innerHTML = wins;
 
-			document.querySelector('#winNumber').innerHTML = wins;
+	document.querySelector('#lossNumber').innerHTML = losses;
 
-			document.querySelector('#lossNumber').innerHTML = losses;
+  document.querySelector('#leftNumber').innerHTML = guessesLeft;
+  
+  
+}	
 
-		  document.querySelector('#leftNumber').innerHTML = guessesLeft;
-		  
-		  
-		}	
-
-			
-})  
+	// Making sure the user chooses r, p, or s
+  
 
 </script>
 </body>
